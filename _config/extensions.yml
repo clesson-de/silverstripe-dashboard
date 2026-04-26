@@ -1,0 +1,8 @@
+---
+Name: dashboard-extensions
+---
+
+SilverStripe\Security\Member:
+  extensions:
+    - Clesson\Silverstripe\Dashboard\Extensions\MemberExtension
+

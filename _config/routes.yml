@@ -1,0 +1,8 @@
+---
+Name: dashboard-routes
+---
+
+SilverStripe\Control\Director:
+  rules:
+    'dashboard-api//$Action': 'Clesson\Silverstripe\Dashboard\Controllers\DashboardController'
+

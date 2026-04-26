@@ -1,0 +1,363 @@
+/* Dashboard bundle CSS */
+
+.dashboard {
+  width: 100%;
+  min-height: 600px;
+}
+
+.dashboard__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.dashboard__toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 0;
+}
+
+.dashboard__toolbar-btn {
+  padding: 8px 16px;
+  background: #0071c4;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dashboard__toolbar-btn:hover {
+  background: #005a9e;
+}
+
+.dashboard__error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: #dc3545;
+  font-size: 16px;
+}
+
+/* --- Panel --- */
+
+.dashboard-panel {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.dashboard-panel--double {
+  grid-column: span 2;
+}
+
+.dashboard-panel--drag-over {
+  border-color: #0071c4;
+  box-shadow: 0 0 0 2px rgba(0, 113, 196, 0.25);
+}
+
+/* --- Panel header --- */
+
+.dashboard-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  cursor: grab;
+  user-select: none;
+}
+
+.dashboard-panel__title {
+  font-weight: 600;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashboard-panel__header-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+/* --- Width toggle switch --- */
+
+.dashboard-panel__width-toggle {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.dashboard-panel__width-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.dashboard-panel__width-switch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ced4da;
+  border-radius: 10px;
+  transition: background-color 0.2s;
+}
+
+.dashboard-panel__width-switch::before {
+  content: '';
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.dashboard-panel__width-toggle input:checked + .dashboard-panel__width-switch {
+  background-color: #0071c4;
+}
+
+.dashboard-panel__width-toggle input:checked + .dashboard-panel__width-switch::before {
+  transform: translateX(16px);
+}
+
+/* --- Settings button in header --- */
+
+.dashboard-panel__settings-btn {
+  background: none;
+  border: none;
+  padding: 2px 4px;
+  cursor: pointer;
+  color: #6c757d;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 4px;
+}
+
+.dashboard-panel__settings-btn:hover {
+  color: #333;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-panel__settings-btn--active {
+  color: #0071c4;
+  background: rgba(0, 113, 196, 0.1);
+}
+
+/* --- Settings form (replaces content area) --- */
+
+.dashboard-panel__settings-form {
+  padding: 4px 0;
+}
+
+.dashboard-panel__settings-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.dashboard-panel__settings-field:last-child {
+  margin-bottom: 0;
+}
+
+.dashboard-panel__settings-label {
+  font-size: 13px;
+  color: #495057;
+  margin-right: 12px;
+}
+
+.dashboard-panel__settings-form input[type="number"],
+.dashboard-panel__settings-form input[type="text"] {
+  padding: 5px 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 13px;
+  width: 90px;
+}
+
+.dashboard-panel__settings-form select {
+  padding: 5px 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 13px;
+  background: #fff;
+}
+
+.dashboard-panel__settings-actions {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.dashboard-panel__settings-save {
+  padding: 5px 16px;
+  background: #0071c4;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.dashboard-panel__settings-save:hover {
+  background: #005a9e;
+}
+
+.dashboard-panel__settings-cancel {
+  padding: 5px 16px;
+  background: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.dashboard-panel__settings-cancel:hover {
+  background: #5a6268;
+}
+
+/* --- Panel content --- */
+
+.dashboard-panel__content {
+  padding: 16px;
+  min-height: 150px;
+}
+
+.dashboard-panel__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  color: #6c757d;
+}
+
+.dashboard-panel__error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  color: #dc3545;
+  font-size: 14px;
+}
+
+/* --- Panel selector (add/remove panels dialog) --- */
+
+.panel-selector {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel-selector__dialog {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 420px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.panel-selector__title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 16px;
+}
+
+.panel-selector__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.panel-selector__item {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.panel-selector__item:last-child {
+  border-bottom: none;
+}
+
+.panel-selector__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.panel-selector__footer {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.panel-selector__save-btn {
+  padding: 8px 16px;
+  background: #0071c4;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.panel-selector__save-btn:hover {
+  background: #005a9e;
+}
+
+.panel-selector__close-btn {
+  padding: 8px 16px;
+  background: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.panel-selector__close-btn:hover {
+  background: #5a6268;
+}
+
+/* --- Loading state --- */
+
+.dashboard-field__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: #6c757d;
+  font-size: 16px;
+}

@@ -1,0 +1,46 @@
+de:
+  Clesson\Silverstripe\Dashboard\Forms\DashboardField:
+    MANAGE_PANELS: 'Panels verwalten'
+    LOADING: 'Wird geladen…'
+    CLOSE: 'Schließen'
+    WIDTH_SINGLE: 'Einfach'
+    WIDTH_DOUBLE: 'Doppelt'
+    SETTINGS: 'Einstellungen'
+    SAVE: 'Speichern'
+  Clesson\Silverstripe\Dashboard\Panels\DashboardPanel:
+    SINGULARNAME: 'Dashboard-Panel'
+    PLURALNAME: 'Dashboard-Panels'
+    REFRESH_INTERVAL: 'Auto-Aktualisierung (Minuten)'
+  Clesson\Silverstripe\Dashboard\Models\DashboardUserConfig:
+    SINGULARNAME: 'Dashboard-Benutzerkonfiguration'
+    PLURALNAME: 'Dashboard-Benutzerkonfigurationen'
+  Clesson\Silverstripe\Dashboard\Controllers\DashboardController:
+    CONFIG_SAVED: 'Dashboard-Konfiguration gespeichert.'
+    NOT_LOGGED_IN: 'Sie müssen angemeldet sein.'
+    INVALID_REQUEST: 'Ungültige Anfrage.'
+    UNTITLED: '(Ohne Titel)'
+    NO_PAGES: 'Keine Seiten gefunden.'
+    NO_FILES: 'Keine Dateien gefunden.'
+    NO_MEMBERS: 'Keine Mitglieder gefunden.'
+    NEVER: 'Nie'
+    LAST_LOGIN: 'Letzter Login'
+    LABEL_CREATED: 'Erstellt'
+    PUBLISHED: 'Veröffentlicht'
+    DRAFT: 'Entwurf'
+  Clesson\Silverstripe\Dashboard\Panels\RecentlyEditedPagesPanel:
+    TITLE: 'Zuletzt bearbeitete Seiten'
+    LIMIT: 'Anzahl Einträge'
+  Clesson\Silverstripe\Dashboard\Panels\RecentlyUploadedFilesPanel:
+    TITLE: 'Zuletzt hochgeladene Dateien'
+    LIMIT: 'Anzahl Einträge'
+  Clesson\Silverstripe\Dashboard\Panels\RecentMembersPanel:
+    TITLE: 'Zuletzt hinzugefügte Mitglieder'
+    LIMIT: 'Anzahl Einträge'
+  Clesson\Silverstripe\Dashboard\Components\PanelSelector:
+    TITLE: 'Panels verwalten'
+    CLOSE: 'Schließen'
+    NO_PANELS: 'Keine Panels verfügbar.'
+    WIDTH_SINGLE: 'Einfache Breite'
+    WIDTH_DOUBLE: 'Doppelte Breite'
+    REFRESH_LABEL: 'Auto-Aktualisierung (Minuten)'
+

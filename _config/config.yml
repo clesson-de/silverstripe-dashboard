@@ -1,0 +1,10 @@
+---
+Name: dashboard-config
+---
+
+SilverStripe\Admin\LeftAndMain:
+  extra_requirements_css:
+    - clesson-de/silverstripe-dashboard:client/admin/dist/bundle.css
+  extra_requirements_javascript:
+    - clesson-de/silverstripe-dashboard:client/admin/dist/bundle.js
+
