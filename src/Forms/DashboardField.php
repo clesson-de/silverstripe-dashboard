@@ -35,6 +35,14 @@ class DashboardField extends FormField
     private array $defaultPanels = [];
 
     /**
+     * Allowed panel classes for this dashboard instance.
+     * If set, only these panels are available in the panel picker.
+     *
+     * @var string[]
+     */
+    private array $allowedPanels = [];
+
+    /**
      * Creates a new DashboardField.
      *
      * @param string $name Field name
@@ -60,6 +68,32 @@ class DashboardField extends FormField
     }
 
     /**
+     * Restricts the available panels for this dashboard to the given classes.
+     *
+     * When set, only these panel types will appear in the panel picker.
+     * Without this restriction, all DashboardPanel subclasses are available.
+     *
+     * @param string[] $panelClasses Fully qualified class names of DashboardPanel subclasses
+     * @return static
+     */
+    public function setAllowedPanels(array $panelClasses): static
+    {
+        $this->allowedPanels = $panelClasses;
+
+        return $this;
+    }
+
+    /**
+     * Returns the allowed panel classes for this dashboard instance.
+     *
+     * @return string[]
+     */
+    public function getAllowedPanels(): array
+    {
+        return $this->allowedPanels;
+    }
+
+    /**
      * Returns the default panel classes.
      *
      * @return string[]
@@ -82,21 +116,44 @@ class DashboardField extends FormField
     /**
      * Returns the API URL for loading the dashboard configuration.
      *
+     * Includes default and allowed panel classes as query parameters so that
+     * the controller can create a correct initial config on the first request
+     * (which is a separate HTTP request without access to this field instance).
+     *
      * @return string
      */
     public function getConfigURL(): string
     {
-        return Director::absoluteURL('dashboard-api/config?key=' . urlencode($this->dashboardKey));
+        $url = 'dashboard-api/config?key=' . urlencode($this->dashboardKey);
+
+        if (!empty($this->defaultPanels)) {
+            $url .= '&defaults=' . urlencode(implode(',', $this->defaultPanels));
+        }
+
+        if (!empty($this->allowedPanels)) {
+            $url .= '&allowed=' . urlencode(implode(',', $this->allowedPanels));
+        }
+
+        return Director::absoluteURL($url);
     }
 
     /**
      * Returns the API URL for listing all available panels.
      *
+     * If allowed panels are configured, they are passed as a query parameter
+     * so the controller can filter panels in a separate request context.
+     *
      * @return string
      */
     public function getPanelsURL(): string
     {
-        return Director::absoluteURL('dashboard-api/panels?key=' . urlencode($this->dashboardKey));
+        $url = 'dashboard-api/panels?key=' . urlencode($this->dashboardKey);
+
+        if (!empty($this->allowedPanels)) {
+            $url .= '&allowed=' . urlencode(implode(',', $this->allowedPanels));
+        }
+
+        return Director::absoluteURL($url);
     }
 
     /**

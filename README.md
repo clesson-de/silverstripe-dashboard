@@ -1,6 +1,6 @@
 # Silverstripe Dashboard
 
-A configurable dashboard field for Silverstripe CMS. It renders a full-width, React-powered panel grid inside any CMS form. Users can rearrange panels via drag & drop, toggle visibility, and configure auto-refresh intervals. Panel state is persisted per user.
+A configurable dashboard field for Silverstripe CMS 6. It renders a full-width, React-powered panel grid inside any CMS form. Users can rearrange panels via drag & drop, toggle visibility, and configure auto-refresh intervals. Panel state is persisted per user.
 
 ## Features
 
@@ -94,6 +94,54 @@ class RecentOrdersPanel extends DashboardPanel
 The `getResourceURL()` must return a URL that serves HTML content. The dashboard loads this via `fetch()` and renders it inside the panel.
 
 ## Configuration Options
+
+### Standalone Dashboard Admin (Landing Page)
+
+The module includes a standalone `DashboardAdmin` that can serve as the CMS landing page. It is **disabled by default** and must be explicitly enabled via YAML configuration:
+
+```yaml
+# app/_config/dashboard.yml
+---
+Name: app-dashboard
+---
+Clesson\Silverstripe\Dashboard\Admins\DashboardAdmin:
+  enabled: true
+```
+
+To make it the **default landing page** after login, you must override `AdminRootController.default_panel`. This requires a separate config block with `After: cmsdefaultadmin` — otherwise `silverstripe/cms` may override your setting:
+
+```yaml
+# app/_config/dashboard.yml (continued)
+---
+Name: app-dashboard-default
+After:
+  - 'cmsdefaultadmin'
+---
+SilverStripe\Admin\AdminRootController:
+  default_panel: 'Clesson\Silverstripe\Dashboard\Admins\DashboardAdmin'
+```
+
+> **Important:** The `After: cmsdefaultadmin` ensures that your config is applied **after** the `silverstripe/cms` module sets `CMSMain` as the default panel. Without it, the load order is undefined and users may still land on the "Pages" section after login.
+
+You can also restrict which panels are available and set defaults:
+
+```yaml
+Clesson\Silverstripe\Dashboard\Admins\DashboardAdmin:
+  enabled: true
+  dashboard_key: 'main'
+  allowed_panels:
+    - App\Panels\RecentOrdersPanel
+    - App\Panels\SalesChartPanel
+  default_panels:
+    - App\Panels\RecentOrdersPanel
+```
+
+| Config key | Type | Default | Description |
+|---|---|---|---|
+| `enabled` | `bool` | `false` | Show the admin in the CMS menu |
+| `dashboard_key` | `string` | `'main'` | Key for per-user panel storage |
+| `allowed_panels` | `string[]` | `[]` (all) | Restrict available panel types |
+| `default_panels` | `string[]` | `[]` | Panels created for new users |
 
 ### Panel Width
 

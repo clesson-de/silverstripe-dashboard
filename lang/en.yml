@@ -1,4 +1,6 @@
 en:
+  Clesson\Silverstripe\Dashboard\Admins\DashboardAdmin:
+    MENUTITLE: 'Dashboard'
   Clesson\Silverstripe\Dashboard\Forms\DashboardField:
     MANAGE_PANELS: 'Manage panels'
     LOADING: 'Loading…'

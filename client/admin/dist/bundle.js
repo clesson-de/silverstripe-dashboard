@@ -70,7 +70,8 @@
           if (!cfg.visible) continue;
 
           var panelInfo = this._findPanelInfo(cfg.panelClass, panels);
-          var title = panelInfo ? panelInfo.title : cfg.panelClass;
+          if (!panelInfo) continue;
+          var title = panelInfo.title;
           var isDouble = cfg.width === 'double';
           var widthClass = isDouble ? ' dashboard-panel--double' : '';
           var resourceURL = this._buildResourceURL(panelInfo, cfg.settings || {}, cfg.width || 'single');

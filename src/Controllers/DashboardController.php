@@ -109,17 +109,23 @@ class DashboardController extends Controller
     /**
      * Returns all available panel classes as JSON.
      *
-     * GET /dashboard-api/panels?key={dashboardKey}
+     * GET /dashboard-api/panels?key={dashboardKey}&allowed={comma-separated classes}
      *
      * @param HTTPRequest $request
      * @return HTTPResponse
      */
     public function handlePanels(HTTPRequest $request): HTTPResponse
     {
+        $allowedParam = (string) $request->getVar('allowed');
+        $allowedPanels = $allowedParam !== '' ? explode(',', $allowedParam) : null;
         $panelClasses = ClassInfo::subclassesFor(DashboardPanel::class, false);
         $result = [];
 
         foreach ($panelClasses as $className) {
+            if ($allowedPanels !== null && !in_array($className, $allowedPanels, true)) {
+                continue;
+            }
+
             /** @var DashboardPanel $panel */
             $panel = Injector::inst()->create($className);
             $result[] = $this->serializePanel($panel);
@@ -481,7 +487,8 @@ class DashboardController extends Controller
     /**
      * Loads the dashboard configuration for the current user.
      *
-     * If no configuration exists yet, creates the default layout.
+     * If no configuration exists yet, creates the default layout using
+     * the default panel classes passed as a query parameter.
      *
      * @param HTTPRequest $request
      * @return HTTPResponse
@@ -493,7 +500,12 @@ class DashboardController extends Controller
         $configs = $this->getConfigsForMember($member->ID, $dashboardKey);
 
         if ($configs->count() === 0) {
-            $this->createDefaultConfig($member->ID, $dashboardKey);
+            $defaultsParam = (string) $request->getVar('defaults');
+            $allowedParam = (string) $request->getVar('allowed');
+            $defaultClasses = $defaultsParam !== '' ? explode(',', $defaultsParam) : null;
+            $allowedClasses = $allowedParam !== '' ? explode(',', $allowedParam) : null;
+
+            $this->createDefaultConfig($member->ID, $dashboardKey, $defaultClasses, $allowedClasses);
             $configs = $this->getConfigsForMember($member->ID, $dashboardKey);
         }
 
@@ -588,18 +600,30 @@ class DashboardController extends Controller
     /**
      * Creates the default panel configuration for a new user.
      *
-     * Uses the default panels registered for the given dashboard key.
+     * If $defaultClasses is provided, only those panels are created.
+     * If $allowedClasses is provided (but no defaults), those are used.
+     * Otherwise falls back to all registered DashboardPanel subclasses.
      *
      * @param int $memberID
      * @param string $dashboardKey
+     * @param array|null $defaultClasses Explicit default panel classes
+     * @param array|null $allowedClasses Allowed panel classes (fallback)
      * @return void
      */
-    private function createDefaultConfig(int $memberID, string $dashboardKey): void
-    {
-        $panelClasses = ClassInfo::subclassesFor(DashboardPanel::class, false);
+    private function createDefaultConfig(
+        int $memberID,
+        string $dashboardKey,
+        ?array $defaultClasses = null,
+        ?array $allowedClasses = null
+    ): void {
+        $panelClasses = $this->resolveDefaultPanelClasses($defaultClasses, $allowedClasses);
         $sort = 0;
 
         foreach ($panelClasses as $className) {
+            if (!class_exists($className)) {
+                continue;
+            }
+
             /** @var DashboardPanel $panel */
             $panel = Injector::inst()->create($className);
             $config = DashboardUserConfig::create();
@@ -614,6 +638,26 @@ class DashboardController extends Controller
             $config->write();
             $sort++;
         }
+    }
+
+    /**
+     * Resolves which panel classes to use for default config creation.
+     *
+     * @param array|null $defaultClasses
+     * @param array|null $allowedClasses
+     * @return array
+     */
+    private function resolveDefaultPanelClasses(?array $defaultClasses, ?array $allowedClasses): array
+    {
+        if ($defaultClasses !== null && !empty($defaultClasses)) {
+            return $defaultClasses;
+        }
+
+        if ($allowedClasses !== null && !empty($allowedClasses)) {
+            return $allowedClasses;
+        }
+
+        return array_values(ClassInfo::subclassesFor(DashboardPanel::class, false));
     }
 
     /**
