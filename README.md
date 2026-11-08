@@ -1,6 +1,6 @@
 # Silverstripe Dashboard
 
-A configurable dashboard field for Silverstripe CMS 6. It renders a full-width, React-powered panel grid inside any CMS form. Users can rearrange panels via drag & drop, toggle visibility, and configure auto-refresh intervals. Panel state is persisted per user.
+A configurable dashboard field for SilverStripe 6. It renders a full-width, React-powered panel grid inside any CMS form. Users can rearrange panels via drag & drop, toggle visibility, and configure auto-refresh intervals. Panel state is persisted per user.
 
 ## Features
 
@@ -16,7 +16,7 @@ A configurable dashboard field for Silverstripe CMS 6. It renders a full-width, 
 
 - Silverstripe Framework `^6`
 - Silverstripe Admin `^3`
-- PHP 8.1+
+- PHP 8.3+
 
 ## Installation
 
@@ -264,4 +264,3 @@ The URL returned by `getResourceURL()` must serve content that can be rendered a
 ## License
 
 BSD-3-Clause. See [LICENSE](LICENSE).
-
